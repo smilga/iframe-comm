@@ -1,0 +1,14 @@
+{
+  "name": "iframe-comm",
+  "version": "0.0.1",
+  "description": "Package to help iframe communication",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kaspars Smilga",
+  "license": "ISC"
+}
