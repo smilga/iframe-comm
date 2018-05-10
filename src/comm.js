@@ -30,7 +30,12 @@ class Comm {
     }
     listen() {
         this.host.addEventListener('message', e => {
-            let data = JSON.parse(e.data);
+            let data = {};
+            try {
+                data = JSON.parse(e.data);
+            } catch (e){
+                return;
+            }
             if(!this.handlers[data.message]) {
                 console.log("Comm: No listener for messasge: ", data.message);
             } else if(this.handlers[data.message] && data.message === Comm.MESSAGE.CONNECT) {
@@ -46,9 +51,9 @@ class Comm {
     }
     sendDeferred() {
         this.deferredMessages.forEach(m => {
-            this.deferredMessages.splice(this.deferredMessages.indexOf(m), 1);
             this.send(m.message, ...m.data);
         });
+        this.deferredMessages = [];
     }
     send(message, ...data) {
         if(!this.targetWindow) {
@@ -56,6 +61,7 @@ class Comm {
             console.log("Comm: Message delayed till connection establish!");
             return;
         }
+
         this.targetWindow.postMessage(JSON.stringify({
             message: message,
             data: data
